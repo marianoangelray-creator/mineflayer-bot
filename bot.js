@@ -1,6 +1,15 @@
 const mineflayer = require('mineflayer');
+const http = require('http');
 
-// Set up the bot connection
+// 1. Create a minimal HTTP server for Render's port check
+http.createServer((req, res) => {
+    res.write("Bot is alive!");
+    res.end();
+}).listen(process.env.PORT || 3000, () => {
+    console.log('[+] HTTP web server listening for Render port binding');
+});
+
+// 2. Your existing Mineflayer bot setup
 const bot = mineflayer.createBot({
     host: 'Ray324.aternos.me',
     port: 15131,
