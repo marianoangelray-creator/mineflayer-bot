@@ -1,7 +1,7 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
-// 1. Keep Render web service alive
+// Web server for Render port binding
 http.createServer((req, res) => {
     res.write("Bot is alive!");
     res.end();
@@ -10,14 +10,14 @@ http.createServer((req, res) => {
 });
 
 function createBot() {
-    console.log('[*] Connecting to Aternos server...');
+    console.log('[*] Connecting to Aternos server via DynIP...');
 
     const bot = mineflayer.createBot({
-        host: 'Ray324.aternos.me', 
+        host: 'hyrax.aternos.host', // Your exact DynIP
         port: 15131,
         username: 'Wifies',
         auth: 'offline',
-        version: '1.21.11' // Fixed to match your server version
+        version: '1.21.11' // Fixed to match your Aternos version
     });
 
     bot.on('login', () => {
@@ -25,19 +25,17 @@ function createBot() {
     });
 
     bot.on('spawn', () => {
-        console.log('[+] Bot spawned in world! Starting anti-AFK activity...');
+        console.log('[+] Bot spawned in world! Anti-AFK activity running...');
 
         setInterval(() => {
             if (!bot.entity) return;
 
-            // Jump
+            // Anti-AFK actions
             bot.setControlState('jump', true);
             setTimeout(() => bot.setControlState('jump', false), 400);
 
-            // Swing hand
             bot.swingArm('right');
 
-            // Look around
             const yaw = Math.random() * Math.PI * 2;
             const pitch = (Math.random() - 0.5) * Math.PI;
             bot.look(yaw, pitch, true);
@@ -45,7 +43,7 @@ function createBot() {
     });
 
     bot.on('end', (reason) => {
-        console.log(`[-] Disconnected: ${reason}. Retrying connection in 15 seconds...`);
+        console.log(`[-] Disconnected: ${reason}. Retrying in 15 seconds...`);
         setTimeout(createBot, 15000); 
     });
 
