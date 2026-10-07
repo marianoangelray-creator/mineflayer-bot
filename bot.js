@@ -13,7 +13,7 @@ function createBot() {
     console.log('[*] Connecting to Aternos server via DynIP...');
 
     const bot = mineflayer.createBot({
-        host: 'hyrax.aternos.host', // Your exact DynIP
+        host: 'horsefish.aternos.host:15131', // Your exact DynIP
         port: 15131,
         username: 'Wifies',
         auth: 'offline',
